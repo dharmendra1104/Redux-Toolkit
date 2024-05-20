@@ -1,9 +1,12 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
+import { add } from '../Redux/Cartslice';
+import { useDispatch } from 'react-redux';
 
 function Home() {
 
     const[products,setProduct]=useState([])
+    const dispatch=useDispatch()
 
 async function fetchdata(){
   try {
@@ -15,6 +18,10 @@ async function fetchdata(){
     } catch (error) {
         console.error('Error fetching data:', error);
     }
+}
+
+const handleAdd=(product)=>{
+dispatch(add(product));
 }
 
     useEffect(()=>{
@@ -29,7 +36,7 @@ async function fetchdata(){
                     <img className='w-full h-30 object-cover' src={item.image} alt="img" />
                     <h4>{item.title}</h4>
                     <h5>${item.price}</h5>
-                    <button className='bg-orange-900 rounded-md text-white p-2 mt-2'>Add to cart</button>
+                    <button className='bg-orange-900 rounded-md text-white p-2 mt-2' onClick={handleAdd(item)}>Add to cart</button>
                 </div>
             ))}
         </div>
